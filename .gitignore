@@ -3,3 +3,4 @@ filename.txt
 .idea
 .out
 .src/Test
+.out/
