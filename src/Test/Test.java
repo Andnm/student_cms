@@ -2,9 +2,27 @@ package Test;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
+
 
 public class Test {
+    public static String[] convertToDate(String date) {
+        String[] dateArray = date.split("-");
+        return dateArray;
+    }
+
     public static void main(String[] args) {
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        System.out.println(date);
+        String dateString = date.toString();
+        System.out.println(dateString);
+        String[] dateArray = convertToDate(dateString);
+
+        System.out.println("Day: " + dateArray[2] + " Month: " + dateArray[1] + " Year: " + dateArray[0]);
+
+
         try (PrintWriter writer = new PrintWriter(new File("test.csv"))) {
 
             StringBuilder sb = new StringBuilder();
@@ -48,11 +66,11 @@ public class Test {
 
                 // use comma as separator
                 String[] data = line.split(cvsSplitBy);
-                int id= Integer.parseInt(data[0]);
+                int id = Integer.parseInt(data[0]);
                 String name = data[1];
                 int age = Integer.parseInt(data[2]);
 
-                Human temp=new Human(id, name, age);
+                Human temp = new Human(id, name, age);
                 humanList.add(temp);
             }
 
@@ -60,20 +78,21 @@ public class Test {
             e.printStackTrace();
         }
 
-        for (Human human : humanList){
+        for (Human human : humanList) {
             System.out.println(human.toString());
         }
     }
 }
 
-class Human{
+class Human {
     private int id;
     private String name;
     private int age;
-    Human(int id, String name, int age){
+
+    Human(int id, String name, int age) {
         this.id = id;
         this.name = name;
-        this.age=age;
+        this.age = age;
     }
 
     @Override
