@@ -1,10 +1,10 @@
 package Parking;
 
-public abstract class Vehicle {
+public class Vehicle {
     private String licenseNumber = null;
     private String model = null;
     private int parkingNumber = 0;
-    private String[] date = null;
+    private String date = null;
     private boolean monthlyPass = false;
 
     public Vehicle() {
@@ -15,7 +15,7 @@ public abstract class Vehicle {
         monthlyPass = false;
     }
 
-    public Vehicle(final String licenseNumber, final String model, final int parkingNumber, final String[] date, final boolean monthlyPass) {
+    public Vehicle(final String licenseNumber, final String model, final int parkingNumber, final String date, final boolean monthlyPass) {
         if (licenseNumber != null && model != null && parkingNumber != 0) {
             this.licenseNumber = licenseNumber;
             this.model = model;
@@ -70,9 +70,11 @@ public abstract class Vehicle {
         return model;
     }
 
+    public final String getDate(){
+        return date;
+    }
+
     public final boolean isMonthlyPass() {
         return monthlyPass;
     }
-
-    abstract public double fee(final String dateReturn[]);
 }

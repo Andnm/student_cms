@@ -4,9 +4,8 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class Utils {
-    public static String[] convertToDate(String date){
-        String[] dateArray=date.split("-");
-        return dateArray;
+    public static String[] convertToDate(String date) {
+        return date.split("-");
     }
 
     public static int getInRanger(int max, int min) throws ParseException {
@@ -20,25 +19,31 @@ public class Utils {
         } while (selection > max || selection < min);
         return selection;
     }
-    public static double getDouble() throws ParseException {
-        Scanner input = new Scanner(System.in);
-        String numberString;
+
+    public static double getDouble() {
+        boolean check = true;
+        String in = null;
         double number = 0;
-        int check = 0;
-        int result = 0;
-        do {
-            numberString = input.nextLine();
-            if (numberString.matches("-?\\d+(\\.\\d+)?")) {
-                number = Double.parseDouble(numberString);
-                check = 1;
+        while (check) {
+            Scanner input = new Scanner(System.in);
+            in = input.nextLine();
+            if (!in.contains("f")) {
+                try {
+                    number = Double.parseDouble(in);
+                    check = false;
+                } catch (NumberFormatException e) {
+                    System.out.print("Not Number Format. Re-enter: ");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {
-                System.out.print("Invalid Number. Re-Enter: ");
+                System.out.print("Not Number Format. Re-enter: ");
             }
-        } while (check == 0);
+        }
         return number;
     }
 
-    public static int getInt() throws ParseException {
+    public static int getInt() {
         int result = 0;
         int check = 0;
         do {
@@ -60,11 +65,7 @@ public class Utils {
         do {
             String function = input.nextLine();
             if (function.equals("Y") || function.equals("N") || function.equals("y") || function.equals("n")) {
-                if (function.equals("Y")|| function.equals("y")) {
-                    has = true;
-                } else {
-                    has = false;
-                }
+                has = function.equals("Y") || function.equals("y");
                 check = true;
             } else {
                 System.out.print("The answer must be Y or N. Re-Enter: ");
