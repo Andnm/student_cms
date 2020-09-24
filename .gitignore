@@ -4,3 +4,5 @@ filename.txt
 .out
 .src/Test
 .out/
+test.csv
+.src/Test/
