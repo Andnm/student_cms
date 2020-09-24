@@ -1,7 +1,0 @@
-DATA from test.csv: 
-1,Nguyen Van A,true
-2,Long,false
-3,Hieu,true
-
-DATA from filemoi: 
-DAY LA BAN MOI!
