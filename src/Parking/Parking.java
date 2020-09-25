@@ -11,7 +11,7 @@ public class Parking {
     private Menu submenu1;
     private boolean isClosed = false;
     ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<String> MonthPass= new ArrayList<>();
+    ArrayList<String> MonthlyPass= new ArrayList<>();
     ArrayList<String> incomeEarnings= new ArrayList<>();
 
     public Parking() {
@@ -22,6 +22,20 @@ public class Parking {
         numOfSpots = 0;
     }
 
+
+    @Deprecated
+    public Parking(final Parking other) {
+    }
+
+    public final boolean isEmpty() {
+        return filename == null;
+    }
+
+    public final void parkingStatus() {
+        System.out.println(" ******* Available Spots: " + (numOfSpots - usedSpots));
+    }
+
+    //1. Park Vehicle
     public Parking(final String filename, final int numOfSpots) {
         if (filename != null && numOfSpots > 0) {
             if (loadDataFile()) {
@@ -41,45 +55,35 @@ public class Parking {
         }
     }
 
-    @Deprecated
-    public Parking(final Parking other) {
-    }
-
-    public final boolean isEmpty() {
-        return filename == null;
-    }
-
-    public final void parkingStatus() {
-        System.out.println(" ******* Available Spots: " + (numOfSpots - usedSpots));
-    }
-
+    //2. Return Vehicle
     public final boolean findVehicle(String licenseNumber) {
         return true;
     }
-
-    public void buyMonthlyPass() {
-    }
-
-    public final boolean checkMonthlyPass(String licenseNumber) {
-        return true;
-    }
-
-    public void parkVehicle() {
-
-    }
-
     public void returnVehicle() {
 
     }
 
+    //3. List Parked Vehicle
     public void listParkedVehicle() {
 
     }
 
+    //4. Buy Monthly Pass
+    public void buyMonthlyPass() {
+    }
+    public final boolean checkMonthlyPass(String licenseNumber) {
+        return true;
+    }
+
+    //5. Display Income Earning Status
+    public final void incomeEarnings(){}
+
+    //6. Close Parking
     public boolean closeParking() {
         return true;
     }
 
+    //7. Exit Program
     public boolean exitParkingApp() {
         return true;
     }
