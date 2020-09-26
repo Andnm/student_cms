@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class Utils {
-    public static String[] convertToDate(String date) {
+    public static String[] convertStringToDate(String date) {
         return date.split("-");
     }
 
@@ -75,4 +75,15 @@ public class Utils {
         return has;
     }
 
+    public static String getDate(){
+        Scanner input = new Scanner(System.in);
+        while (true) {
+            String date = input.nextLine();
+            if(date.matches("(20[0-2][0-9])[-]([0-9]|1[0-2])[-]([0-9]|1[0-9]|2[0-9]|3[0-1])")){
+                return date;
+            }else{
+                System.out.println("Incorrect Format of Date (yyyy/mm/dd), Re-enter: ");
+            }
+        }
+    }
 }
