@@ -11,8 +11,8 @@ public class Parking {
     private Menu submenu1;
     private boolean isClosed = false;
     ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<String> MonthlyPass= new ArrayList<>();
-    ArrayList<String> incomeEarnings= new ArrayList<>();
+    ArrayList<String> MonthlyPass = new ArrayList<>();
+    ArrayList<IncomeEarning> incomeEarnings = new ArrayList<>();
 
     public Parking() {
         filename = null;
@@ -38,7 +38,7 @@ public class Parking {
     //1. Park Vehicle
     public Parking(final String filename, final int numOfSpots) {
         if (filename != null && numOfSpots > 0) {
-            if (loadDataFile()) {
+            if (loadDataFile(filename)) {
                 mainmenu = new Menu("********* Parking Menu *********");
                 mainmenu.add("Park Vehicle");
                 mainmenu.add("Return Vehicle");
@@ -59,8 +59,8 @@ public class Parking {
     public final boolean findVehicle(String licenseNumber) {
         return true;
     }
-    public void returnVehicle() {
 
+    public void returnVehicle() {
     }
 
     //3. List Parked Vehicle
@@ -70,13 +70,16 @@ public class Parking {
 
     //4. Buy Monthly Pass
     public void buyMonthlyPass() {
+        //Nap Date vao String Array [3] phan tu: vi du: Nhap ngay: arr[2]=getInt();    Nhap Thang: arr[1]=getInt();    Nhap Nam: arr[0]=getInt();
     }
+
     public final boolean checkMonthlyPass(String licenseNumber) {
         return true;
     }
 
     //5. Display Income Earning Status
-    public final void incomeEarnings(){}
+    public final void incomeEarnings() {
+    }
 
     //6. Close Parking
     public boolean closeParking() {
@@ -88,8 +91,8 @@ public class Parking {
         return true;
     }
 
-    public boolean loadDataFile() {
-        String csvFile = "Vehicle.csv";
+    public boolean loadDataFile(String filename) {
+        String csvFile = filename;
         String line = "";
         String cvsSplitBy = ",";
         boolean check = false;
