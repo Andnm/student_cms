@@ -3,6 +3,8 @@ package Parking;
 import java.io.*;
 import java.util.ArrayList;
 
+import static Parking.Utils.*;
+
 public class Parking {
     private String filename = null;
     private int numOfSpots = 0;
@@ -11,7 +13,7 @@ public class Parking {
     private Menu submenu1;
     private boolean isClosed = false;
     ArrayList<Vehicle> vehicles = new ArrayList<>();
-    ArrayList<String> MonthlyPass = new ArrayList<>();
+    ArrayList<MonthlyPass> monthlyPass = new ArrayList<>();
     ArrayList<IncomeEarning> incomeEarnings = new ArrayList<>();
 
     public Parking() {
@@ -35,7 +37,6 @@ public class Parking {
         System.out.println(" ******* Available Spots: " + (numOfSpots - usedSpots));
     }
 
-    //1. Park Vehicle
     public Parking(final String filename, final int numOfSpots) {
         if (filename != null && numOfSpots > 0) {
             if (loadDataFile(filename)) {
@@ -48,11 +49,21 @@ public class Parking {
                 mainmenu.add("Close Parking");
                 mainmenu.add("Exit Program");
                 submenu1 = new Menu("   Select type of the Vehicle: ");
-                submenu1.add("Car");
-                submenu1.add("Motorbike");
-                submenu1.add("Cancel");
+                submenu1.add("   Car");
+                submenu1.add("   Motorbike");
+                submenu1.add("   Cancel");
+                this.numOfSpots = numOfSpots;
             }
         }
+    }
+
+    //1. Park Vehicle
+    public void parkCar() {
+        //TODO
+    }
+
+    public void parkMotorbike() {
+        //TODO
     }
 
     //2. Return Vehicle
@@ -92,14 +103,16 @@ public class Parking {
     }
 
     public boolean loadDataFile(String filename) {
+
+
         String csvFile = filename;
         String line = "";
         String cvsSplitBy = ",";
         boolean check = false;
+        //Vehicle List
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
             while ((line = br.readLine()) != null) {
-                Vehicle temp = null;
+                Vehicle tempVehicle = null;
                 String[] data = line.split(cvsSplitBy);
                 String licenseNumber = data[0];
                 String modelNumber = data[1];
@@ -107,16 +120,56 @@ public class Parking {
                 String date = data[3];
                 boolean monthlyPass = Boolean.parseBoolean(data[4]);
                 if (data[5].equals("C")) {
-                    temp = new Motorbike(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
+                    tempVehicle = new Motorbike(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
                 } else {
-                    temp = new Car(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
+                    tempVehicle = new Car(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
                 }
-                vehicles.add(temp);
+                vehicles.add(tempVehicle);
             }
             check = true;
         } catch (IOException e) {
             e.printStackTrace();
             check = false;
+            return check;
+        }
+
+        //MonthlyPass
+        csvFile = "MonthlyPass.csv";
+        line = "";
+        cvsSplitBy = ":";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                Vehicle temp = null;
+                String[] data = line.split(cvsSplitBy);
+                String date = data[0];
+                String licenseNumber = data[1];
+                MonthlyPass tempMonthPass = new MonthlyPass(date, licenseNumber);
+                monthlyPass.add(tempMonthPass);
+            }
+            check = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            check = false;
+            return check;
+        }
+        //Income
+        csvFile = "Income.csv";
+        line = "";
+        cvsSplitBy = ":";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                Vehicle temp = null;
+                String[] data = line.split(cvsSplitBy);
+                String date = data[0];
+                double money = Double.parseDouble(data[1]);
+                IncomeEarning tempIncome = new IncomeEarning(date, money);
+                incomeEarnings.add(tempIncome);
+            }
+            check = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            check = false;
+            return check;
         }
         return check;
     }
@@ -144,16 +197,120 @@ public class Parking {
         }
 
         //Save MonthlyPass List(MonthlyPass.csv)
-        //TODO
+        try (PrintWriter writer = new PrintWriter(new File("MonthlyPass.csv"))) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < monthlyPass.size(); i++) {
+                sb.append(monthlyPass.get(i).getDate() + ":");
+                sb.append(monthlyPass.get(i).getLicenseNumber() + "\n");
+            }
+            writer.write(sb.toString());
+            System.out.println("Saved File!");
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
         //Save Income Earning List(Income.csv)
-        //TODO
+        try (PrintWriter writer = new PrintWriter(new File("Income.csv"))) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < incomeEarnings.size(); i++) {
+                sb.append(incomeEarnings.get(i).getDate() + ":");
+                sb.append(incomeEarnings.get(i).getMoney() + "\n");
+            }
+            writer.write(sb.toString());
+            System.out.println("Saved File!");
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
 
         //Save to REPORT FINAL FILE(Report.txt)
-        //TODO
+        String line = "";
+        String dataInput = "Vehicle List Data:\n";
+        try (BufferedReader br = new BufferedReader(new FileReader("Vehicle.csv"))) {
+            while ((line = br.readLine()) != null) {
+                System.out.println("Line: " + line);
+                dataInput += line + "\n";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dataInput += "\nMonthly Pass Data: \n";
+        try (BufferedReader br = new BufferedReader(new FileReader("MonthlyPass.csv"))) {
+            while ((line = br.readLine()) != null) {
+                dataInput += line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        dataInput += "\nIncome Earning Data: \n";
+        try (BufferedReader br = new BufferedReader(new FileReader("Income.csv"))) {
+            while ((line = br.readLine()) != null) {
+                dataInput += line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (PrintWriter writer = new PrintWriter(new File("OUTPUT_FINAL.txt"))) {
+            writer.write(dataInput);
+            System.out.println("done!");
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void run() {
-        //TODO
+        parkingStatus();
+        boolean check = true;
+        do {
+            int option = mainmenu.run();
+            switch (option) {
+                case 1:
+                    boolean subCheck = true;
+                    do {
+                        int subOption = submenu1.run();
+                        switch (subOption) {
+                            case 1:
+                                parkCar();
+                                break;
+                            case 2:
+                                parkMotorbike();
+                                break;
+                            case 3:
+                                subCheck = false;
+                                break;
+                        }
+                    } while (subCheck);
+                    break;
+                case 2:
+                    returnVehicle();
+                    break;
+                case 3:
+                    listParkedVehicle();
+                    break;
+                case 4:
+                    buyMonthlyPass();
+                    break;
+                case 5:
+                    incomeEarnings();
+                    break;
+                case 6:
+                    closeParking();
+                    break;
+                case 7:
+                    exitParkingApp();
+                    System.out.print("Exiting the App. Please confirm (Y/N): ");
+                    boolean exit = hasOrNot();
+                    if (exit) {
+                        check = false;
+                        System.out.println("Bye!");
+                    } else {
+                        System.out.println("Continuing the program!");
+                    }
+                    break;
+            }
+        } while (check);
     }
 }

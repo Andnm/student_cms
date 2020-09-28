@@ -11,7 +11,7 @@ public class Utils {
         return date.split("-");
     }
 
-    public static int getInRanger(int max, int min) throws ParseException {
+    public static int getInRanger(int max, int min) {
         Scanner input = new Scanner(System.in);
         int selection = 0;
         do {

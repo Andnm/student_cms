@@ -33,7 +33,7 @@ public class Menu {
         }
     }
 
-    public int run() throws ParseException {
+    public int run() {
         int selection = 0;
         if (!isEmpty()) {
             System.out.println("*** " + title + " ***");

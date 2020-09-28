@@ -1,17 +1,23 @@
 package Parking;
 
 public class IncomeEarning {
-    private String[] date;
+    private String date;
     private double money;
 
-    public IncomeEarning(String[] date, double money) {
-        if (date.length > 0) {
-            for (int i = 0; i < date.length; i++) {
-                this.date[i] = date[i];
-            }
+    public IncomeEarning(String date, double money) {
+        if (date!=null){
+            this.date = date;
             this.money = money;
         } else {
             System.out.println("Fail to create Income Earning: Date empty!");
         }
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public double getMoney() {
+        return money;
     }
 }
