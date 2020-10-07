@@ -75,9 +75,6 @@ public class Parking {
     //2. Return Vehicle
     public final boolean findVehicle(String licenseNumber) {
         boolean isResult = true;
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter your vehicle license plates: ");
-        licenseNumber = input.nextLine().toUpperCase();
         for (Vehicle x : vehicles) {
             if (!x.getLicenseNumber().contains(licenseNumber)){
                 isResult = false;
