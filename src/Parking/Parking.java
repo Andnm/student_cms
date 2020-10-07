@@ -2,6 +2,7 @@ package Parking;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static Parking.Utils.*;
 
@@ -66,9 +67,27 @@ public class Parking {
         //TODO
     }
 
+    /**
+     * グェンタンヴィン
+     * @param licenseNumber
+     * @return
+     */
     //2. Return Vehicle
     public final boolean findVehicle(String licenseNumber) {
-        return true;
+        boolean isResult = true;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter your vehicle license plates: ");
+        licenseNumber = input.nextLine().toUpperCase();
+        for (Vehicle x : vehicles) {
+            if (!x.getLicenseNumber().contains(licenseNumber)){
+                isResult = false;
+                System.out.println("Your vehicle is not exist");
+            }
+            else {
+                isResult = true;
+            }
+        }
+        return isResult;
     }
 
     public void returnVehicle() {
