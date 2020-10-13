@@ -82,6 +82,7 @@ public class Parking {
             }
             else {
                 isResult = true;
+                break;
             }
         }
         return isResult;
@@ -92,12 +93,11 @@ public class Parking {
 
     //3. List Parked Vehicle
     public void listParkedVehicle() {
-
     }
 
     //4. Buy Monthly Pass
     public void buyMonthlyPass() {
-        //Nap Date vao String Array [3] phan tu: vi du: Nhap ngay: arr[2]=getInt();    Nhap Thang: arr[1]=getInt();    Nhap Nam: arr[0]=getInt();
+        //dung ham de kiem tra khoang cach giua 2 ngay
     }
 
     public final boolean checkMonthlyPass(String licenseNumber) {
