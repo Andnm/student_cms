@@ -8,6 +8,7 @@ public class IncomeEarning {
         if (date!=null){
             this.date = date;
             this.money = money;
+            //test
         } else {
             System.out.println("Fail to create Income Earning: Date empty!");
         }
