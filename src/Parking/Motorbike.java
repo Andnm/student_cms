@@ -6,6 +6,8 @@ public class Motorbike extends Vehicle implements VehicleFee {
         super(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
     }
 
+
+
     @Override
     public double fee(String[] dateReturn) {
         return 0;
