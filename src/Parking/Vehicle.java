@@ -15,8 +15,6 @@ public class Vehicle {
         monthlyPass = false;
     }
 
-
-
     public Vehicle(final String licenseNumber, final String model, final int parkingNumber, final String date, final boolean monthlyPass) {
         if (licenseNumber != null && model != null && parkingNumber != 0) {
             this.licenseNumber = licenseNumber;
@@ -72,13 +70,11 @@ public class Vehicle {
         return model;
     }
 
-    public final String getDate(){
+    public final String getDate() {
         return date;
     }
 
     public final boolean isMonthlyPass() {
         return monthlyPass;
     }
-
-
 }

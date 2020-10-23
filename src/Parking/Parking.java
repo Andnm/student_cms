@@ -1,6 +1,5 @@
 package Parking;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -77,13 +76,13 @@ public class Parking {
                     if (vehicle.getLicenseNumber().contains(licenseNumber)) {
                         result = true;
                     }
-                    if (result == true) {
+                    if (result) {
                         System.out.println("This license number has already existed. Please input again!");
                     } else {
                         System.out.println("This license is valid");
                     }
                 }
-            }while(result != false);
+            }while(!result);
 
             System.out.print("Model number: ");
             String modelNumber = sc.nextLine();
@@ -99,7 +98,7 @@ public class Parking {
             Boolean monthlyPass = hasOrNot();
 
             vehicles.add(new Vehicle(licenseNumber, modelNumber, parkingNumber, date, monthlyPass));
-
+            usedSpots++;
         }
     }
 
@@ -120,13 +119,13 @@ public class Parking {
                     if (vehicle.getLicenseNumber().contains(licenseNumber)) {
                         result = true;
                     }
-                    if (result == true) {
+                    if (result) {
                         System.out.println("This license number has already existed. Please input again!");
                     } else {
                         System.out.println("This license is valid");
                     }
                 }
-            }while(result != false);
+            }while(!result);
 
             System.out.print("Model number: ");
             String modelNumber = sc.nextLine();
@@ -142,6 +141,8 @@ public class Parking {
             Boolean monthlyPass = hasOrNot();
 
             vehicles.add(new Vehicle(licenseNumber, modelNumber, parkingNumber, date, monthlyPass));
+            usedSpots++;
+
 
         }
     }
@@ -189,35 +190,35 @@ public class Parking {
 
     //6. Close Parking
     public boolean closeParking() {
-
+        boolean choice=false;
         if (vehicles.size() > 0){
             System.out.println("There are still vehicles in this parking.");
         }else{
             System.out.print("Do you want to save the data? ");
-            boolean choice = hasOrNot();
-            String result = String.valueOf(choice);
-            if (result.equals("Y") || result.equals("y")){
+            choice = hasOrNot();
+            if (choice){
                 saveDataFile();
                 System.out.println("The data has been saved successfully");
+                System.out.println("See you later!!");
+            }else{
+                System.out.println("The Program is continue...");
             }
-            System.out.println("See you later!!");
         }
-
-        return true;
+        return choice;
     }
 
     //7. Exit Program
     public boolean exitParkingApp() {
         System.out.println("Are you sure to exit parking app?");
         boolean choice = hasOrNot();
-        String result = String.valueOf(choice);
-        if (result.equals("Y") || result.equals("y")){
+        if (choice){
             saveDataFile();
             System.out.println("The data has been saved successfully");
-
+            System.out.println("See you later!!");
+        }else{
+            System.out.println("The Program is continue...");
         }
-        System.out.println("See you later!!");
-        return true;
+        return choice;
     }
 
     public boolean loadDataFile(String filename) {
