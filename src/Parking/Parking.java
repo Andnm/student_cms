@@ -190,7 +190,7 @@ public class Parking {
 
     //6. Close Parking
     public boolean closeParking() {
-        boolean choice=false;
+        boolean choice = false;
         if (vehicles.size() > 0){
             System.out.println("There are still vehicles in this parking.");
         }else{
@@ -209,7 +209,7 @@ public class Parking {
 
     //7. Exit Program
     public boolean exitParkingApp() {
-        System.out.println("Are you sure to exit parking app?");
+        System.out.print("Are you sure to exit parking app? ");
         boolean choice = hasOrNot();
         if (choice){
             saveDataFile();
