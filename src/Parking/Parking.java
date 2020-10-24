@@ -60,6 +60,7 @@ public class Parking {
 
     //1. Park Vehicle
     public void parkCar() {
+        numOfSpots = 100;
         if (numOfSpots - usedSpots == 0){
             System.out.println("This parking has no space. Sorry and see you later.");
         }else{
@@ -68,7 +69,7 @@ public class Parking {
             System.out.println("Please, input information about this car");
 
             System.out.print("License number: ");
-            String licenseNumber = null;
+            String licenseNumber = "";
             boolean result = false;
             do {
                 licenseNumber = sc.nextLine();
@@ -82,17 +83,17 @@ public class Parking {
                         System.out.println("This license is valid");
                     }
                 }
-            }while(!result);
+            }while(result); // if true thi thoat vong lap. flase thi bat nhap lai. ua khoan.
 
             System.out.print("Model number: ");
             String modelNumber = sc.nextLine();
 
             System.out.print("Parking number: ");
-            int parkingNumber = getInt();
+            int parkingNumber = usedSpots + 1;
+            sc.nextLine();
 
             System.out.print("Date: ");
             String date = getDate();
-            convertStringToDate(date);
 
             System.out.print("Monthly pass: ");
             Boolean monthlyPass = hasOrNot();
@@ -111,7 +112,7 @@ public class Parking {
             System.out.println("Please, input information about this motorbike");
 
             System.out.print("License number: ");
-            String licenseNumber = null;
+            String licenseNumber = "";
             boolean result = false;
             do {
                 licenseNumber = sc.nextLine();
@@ -131,11 +132,11 @@ public class Parking {
             String modelNumber = sc.nextLine();
 
             System.out.print("Parking number: ");
-            int parkingNumber = getInt();
+            int parkingNumber = usedSpots + 1;
+            sc.nextLine();
 
             System.out.print("Date: ");
             String date = getDate();
-            convertStringToDate(date);
 
             System.out.print("Monthly pass: ");
             Boolean monthlyPass = hasOrNot();

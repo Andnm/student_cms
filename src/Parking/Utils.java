@@ -106,7 +106,7 @@ public class Utils {
                     System.out.print("Invalid date! Check the days in the month. Re-enter: ");
                 }
             }else{
-                System.out.print("Incorrect Format of Date (yyyy/mm/dd), Re-enter: ");
+                System.out.print("Incorrect Format of Date (yyyy-mm-dd), Re-enter: ");
             }
         }
         return date;
