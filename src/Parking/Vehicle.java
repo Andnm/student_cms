@@ -66,6 +66,11 @@ public class Vehicle {
         }
     }
 
+    public void setMonthlyPass(final boolean monthlyPass){
+        if(monthlyPass!=this.monthlyPass){
+            this.monthlyPass = monthlyPass;
+        }
+    }
     public final String getModel() {
         return model;
     }
@@ -77,4 +82,9 @@ public class Vehicle {
     public final boolean isMonthlyPass() {
         return monthlyPass;
     }
+
+    public double fee(final String dateReturn) {
+        return 0;
+    }
+
 }

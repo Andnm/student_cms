@@ -5,7 +5,7 @@ public class IncomeEarning {
     private double money;
 
     public IncomeEarning(String date, double money) {
-        if (date!=null){
+        if (date != null) {
             this.date = date;
             this.money = money;
             //test
@@ -20,5 +20,11 @@ public class IncomeEarning {
 
     public double getMoney() {
         return money;
+    }
+
+    @Override
+    public String toString() {
+        String result = date + ": " + "$" + money + "\n";
+        return result;
     }
 }

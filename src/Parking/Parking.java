@@ -38,9 +38,23 @@ public class Parking {
         System.out.println(" ******* Available Spots: " + (numOfSpots - usedSpots));
     }
 
-    public Parking(final String filename, final int numOfSpots) {
-        if (filename != null && numOfSpots > 0) {
-            if (loadDataFile(filename)) {
+    public Parking(final int numOfSpots) {
+        if (numOfSpots > 0) {
+            if (loadDataFile()) {
+                mainmenu = new Menu("********* Parking Menu *********");
+                mainmenu.add("Park Vehicle");
+                mainmenu.add("Return Vehicle");
+                mainmenu.add("List Parked Vehicle");
+                mainmenu.add("Buy Monthly Pass");
+                mainmenu.add("Income Earning");
+                mainmenu.add("Close Parking");
+                mainmenu.add("Exit Program");
+                submenu1 = new Menu("   Select type of the Vehicle: ");
+                submenu1.add("   Car");
+                submenu1.add("   Motorbike");
+                submenu1.add("   Cancel");
+                this.numOfSpots = numOfSpots;
+            } else {
                 mainmenu = new Menu("********* Parking Menu *********");
                 mainmenu.add("Park Vehicle");
                 mainmenu.add("Return Vehicle");
@@ -60,150 +74,247 @@ public class Parking {
 
     //1. Park Vehicle
     public void parkCar() {
-        numOfSpots = 100;
-        if (numOfSpots - usedSpots == 0){
+        if ((numOfSpots - usedSpots) <= 0) {
             System.out.println("This parking has no space. Sorry and see you later.");
-        }else{
+        } else {
             Scanner sc = new Scanner(System.in);
 
             System.out.println("Please, input information about this car");
 
-            System.out.print("License number: ");
+            boolean check = true;
             String licenseNumber = "";
-            boolean result = false;
-            do {
+            while(check){
+                System.out.print("License number: ");
                 licenseNumber = sc.nextLine();
-                for (Vehicle vehicle : vehicles) {
-                    if (vehicle.getLicenseNumber().contains(licenseNumber)) {
-                        result = true;
-                    }
-                    if (result) {
-                        System.out.println("This license number has already existed. Please input again!");
-                    } else {
-                        System.out.println("This license is valid");
-                    }
+                if(findVehicle(licenseNumber)){
+                    check = true;
+                    System.out.println("This license number has already existed. Please input again!");
+                }else{
+                    check = false;
                 }
-            }while(result); // if true thi thoat vong lap. flase thi bat nhap lai. ua khoan.
+            }
 
-            System.out.print("Model number: ");
+            System.out.print("Model: ");
             String modelNumber = sc.nextLine();
-
-            System.out.print("Parking number: ");
             int parkingNumber = usedSpots + 1;
-            sc.nextLine();
-
             System.out.print("Date: ");
             String date = getDate();
 
-            System.out.print("Monthly pass: ");
-            Boolean monthlyPass = hasOrNot();
+            boolean isMonthlyPass = false;
+            for (int i = 0; i < monthlyPass.size(); i++) {
+                if (monthlyPass.get(i).getLicenseNumber().contains(licenseNumber)) {
+                    isMonthlyPass = true;
+                    break;
+                } else {
+                    isMonthlyPass = false;
+                }
+            }
 
-            vehicles.add(new Vehicle(licenseNumber, modelNumber, parkingNumber, date, monthlyPass));
+            if (isMonthlyPass) {
+                System.out.println("Monthly Pass: Yes");
+            } else {
+                System.out.println("Monthly Pass: No");
+            }
+
+            vehicles.add(new Car(licenseNumber, modelNumber, parkingNumber, date, isMonthlyPass));
             usedSpots++;
         }
     }
 
     public void parkMotorbike() {
-        if (numOfSpots - usedSpots == 0){
+        if ((numOfSpots - usedSpots) <= 0) {
             System.out.println("This parking has no space. Sorry and see you later.");
-        }else{
+        } else {
             Scanner sc = new Scanner(System.in);
-
             System.out.println("Please, input information about this motorbike");
 
-            System.out.print("License number: ");
+            boolean check = true;
             String licenseNumber = "";
-            boolean result = false;
-            do {
+            while(check){
+                System.out.print("License number: ");
                 licenseNumber = sc.nextLine();
-                for (Vehicle vehicle : vehicles) {
-                    if (vehicle.getLicenseNumber().contains(licenseNumber)) {
-                        result = true;
-                    }
-                    if (result) {
-                        System.out.println("This license number has already existed. Please input again!");
-                    } else {
-                        System.out.println("This license is valid");
-                    }
+                if(findVehicle(licenseNumber)){
+                    check = true;
+                    System.out.println("This license number has already existed. Please input again!");
+                }else{
+                    check = false;
                 }
-            }while(!result);
+            }
 
-            System.out.print("Model number: ");
+            System.out.print("Model: ");
             String modelNumber = sc.nextLine();
 
-            System.out.print("Parking number: ");
             int parkingNumber = usedSpots + 1;
-            sc.nextLine();
 
             System.out.print("Date: ");
             String date = getDate();
 
-            System.out.print("Monthly pass: ");
-            Boolean monthlyPass = hasOrNot();
+            boolean isMonthlyPass = false;
+            for (int i = 0; i < monthlyPass.size(); i++) {
+                if (monthlyPass.get(i).getLicenseNumber().contains(licenseNumber)) {
+                    isMonthlyPass = true;
+                    break;
+                } else {
+                    isMonthlyPass = false;
+                }
+            }
 
-            vehicles.add(new Vehicle(licenseNumber, modelNumber, parkingNumber, date, monthlyPass));
+            if (isMonthlyPass) {
+                System.out.println("Monthly Pass: Yes");
+            } else {
+                System.out.println("Monthly Pass: No");
+            }
+
+            vehicles.add(new Motorbike(licenseNumber, modelNumber, parkingNumber, date, isMonthlyPass));
             usedSpots++;
-
-
         }
     }
 
     /**
      * グェンタンヴィン
+     *
      * @param licenseNumber
      * @return
      */
     //2. Return Vehicle
     public final boolean findVehicle(String licenseNumber) {
-        boolean isResult = true;
+        boolean isResult = false;
         for (Vehicle x : vehicles) {
-            if (!x.getLicenseNumber().contains(licenseNumber)){
-                isResult = false;
-                System.out.println("Your vehicle is not exist");
-            }
-            else {
+            if (x.getLicenseNumber().contains(licenseNumber)) {
                 isResult = true;
                 break;
+            } else {
+                isResult = false;
             }
         }
         return isResult;
     }
 
     public void returnVehicle() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter license Number: ");
+        String licenseNumber = input.nextLine();
+        if (findVehicle(licenseNumber)) {
+            for (int i = 0; i < vehicles.size(); i++) {
+                if (vehicles.get(i).getLicenseNumber().contains(licenseNumber)) {
+                    double money = vehicles.get(i).fee(vehicles.get(i).getDate());
+                    String date = vehicles.get(i).getDate();
+                    String time = date + " to " + getToday();
+                    incomeEarnings.add(new IncomeEarning(time, money));
+                    vehicles.remove(i);
+                    System.out.println("Returned Vehicle!");
+                    usedSpots--;
+                    break;
+                }
+            }
+        } else {
+            System.out.println("This Vehicle is not exsits!");
+        }
     }
 
     //3. List Parked Vehicle
     public void listParkedVehicle() {
+        if (vehicles.size() > 0) {
+            for (int i = 0; i < vehicles.size(); i++) {
+                    System.out.println(vehicles.get(i).toString());
+            }
+        } else {
+            System.out.println("No Vehicle to show!");
+        }
     }
 
     //4. Buy Monthly Pass
     public void buyMonthlyPass() {
-        //dung ham de kiem tra khoang cach giua 2 ngay
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter License Number: ");
+        String licenseNumber = input.nextLine();
+
+        if (checkMonthlyPass(licenseNumber)) {
+            for (int i = 0; i < monthlyPass.size(); i++) {
+                if (monthlyPass.get(i).getLicenseNumber().contains(licenseNumber)) {
+                    String date = monthlyPass.get(i).getDate();
+                    String[] newMonth = convertStringToDate(date);
+                    if(dateDiffFuture(date)<28){
+                        System.out.print("Do you want to buy for the next Month? (Y/N): ");
+                        boolean check = hasOrNot();
+                        if (check) {
+                            int month = Integer.parseInt(newMonth[1]);
+                            String newDate = newMonth[0] + "-" + month + "-" + "28";
+                            monthlyPass.remove(i);
+                            monthlyPass.add(new MonthlyPass(newDate, licenseNumber));
+                            System.out.println("Purchased!");
+                            String time = newDate + " to " + getToday();
+                            incomeEarnings.add(new IncomeEarning(time, 120));
+                        }
+                    }
+                }
+
+                for(int j = 0; j < vehicles.size(); j++){
+                    if(vehicles.get(j).getLicenseNumber().contains(licenseNumber)){
+                        vehicles.get(j).setMonthlyPass(true);
+                        break;
+                    }
+                }
+            }
+        } else {
+            System.out.print("Enter Month: ");
+            boolean check = false;
+            int month = getInRanger(12, 1);
+            String monthly = "2020-" + month + "-28";
+            if (dateDiffFuture(monthly) < 15) {
+                System.out.print("It was half of the month, do you want to buy it for next month? (Y/N): ");
+                boolean decision = hasOrNot();
+                if (decision) {
+                    month++;
+                    monthly = "2000-" + month + "-01";
+                    monthlyPass.add(new MonthlyPass(monthly, licenseNumber));
+                    System.out.println("Purchased!");
+                    String time = monthly + " to " + getToday();
+                    incomeEarnings.add(new IncomeEarning(time, 120));
+                }else{
+                    monthlyPass.add(new MonthlyPass(monthly, licenseNumber));
+                    System.out.println("Purchased!");
+                    String time = monthly + " to " + getToday();
+                    incomeEarnings.add(new IncomeEarning(time, 120));
+                }
+            } else {
+                monthlyPass.add(new MonthlyPass(monthly, licenseNumber));
+                System.out.println("Purchased!");
+                String time = monthly + " to " + getToday();
+                incomeEarnings.add(new IncomeEarning(time, 120));
+            }
+        }
     }
 
     public final boolean checkMonthlyPass(String licenseNumber) {
-        return true;
+        boolean result = false;
+        for (int i = 0; i < monthlyPass.size(); i++) {
+            if (monthlyPass.get(i).getLicenseNumber().equals(licenseNumber)) {
+                result = true;
+                break;
+            } else {
+                result = false;
+            }
+        }
+        return result;
     }
 
     //5. Display Income Earning Status
     public final void incomeEarnings() {
+        for (int i = 0; i < incomeEarnings.size(); i++) {
+            System.out.println(incomeEarnings.get(i).toString());
+        }
     }
 
     //6. Close Parking
     public boolean closeParking() {
         boolean choice = false;
-        if (vehicles.size() > 0){
+        if (vehicles.size() > 0) {
             System.out.println("There are still vehicles in this parking.");
-        }else{
-            System.out.print("Do you want to save the data? ");
-            choice = hasOrNot();
-            if (choice){
-                saveDataFile();
-                System.out.println("The data has been saved successfully");
+            choice = false;
+        } else {
                 System.out.println("See you later!!");
-            }else{
-                System.out.println("The Program is continue...");
-            }
+                choice=true;
         }
         return choice;
     }
@@ -212,19 +323,18 @@ public class Parking {
     public boolean exitParkingApp() {
         System.out.print("Are you sure to exit parking app? ");
         boolean choice = hasOrNot();
-        if (choice){
+        if (choice) {
             saveDataFile();
-            System.out.println("The data has been saved successfully");
-            System.out.println("See you later!!");
-        }else{
+            System.out.println("All data has been saved successfully");
+        } else {
             System.out.println("The Program is continue...");
         }
         return choice;
     }
 
-    public boolean loadDataFile(String filename) {
+    public boolean loadDataFile() {
 
-        String csvFile = filename;
+        String csvFile = "Vehicle.csv";
         String line = "";
         String cvsSplitBy = ",";
         boolean check = false;
@@ -244,6 +354,7 @@ public class Parking {
                     tempVehicle = new Car(licenseNumber, modelNumber, parkingNumber, date, monthlyPass);
                 }
                 vehicles.add(tempVehicle);
+                usedSpots++;
             }
             check = true;
         } catch (IOException e) {
@@ -310,7 +421,7 @@ public class Parking {
                 }
             }
             writer.write(sb.toString());
-            System.out.println("Saved File!");
+            System.out.println("Saved File Vehicle.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -323,7 +434,7 @@ public class Parking {
                 sb.append(monthlyPass.get(i).getLicenseNumber() + "\n");
             }
             writer.write(sb.toString());
-            System.out.println("Saved File!");
+            System.out.println("Saved File MonthlyPass.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -336,7 +447,7 @@ public class Parking {
                 sb.append(incomeEarnings.get(i).getMoney() + "\n");
             }
             writer.write(sb.toString());
-            System.out.println("Saved File!");
+            System.out.println("Saved File Income.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -346,7 +457,6 @@ public class Parking {
         String dataInput = "Vehicle List Data:\n";
         try (BufferedReader br = new BufferedReader(new FileReader("Vehicle.csv"))) {
             while ((line = br.readLine()) != null) {
-                System.out.println("Line: " + line);
                 dataInput += line + "\n";
             }
 
@@ -374,7 +484,7 @@ public class Parking {
 
         try (PrintWriter writer = new PrintWriter(new File("OUTPUT_FINAL.txt"))) {
             writer.write(dataInput);
-            System.out.println("done!");
+            System.out.println("Done!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }

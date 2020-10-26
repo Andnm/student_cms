@@ -80,40 +80,66 @@ public class Utils {
 
     public static int dateDiff(String value1) {
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        int dateDiff=0;
-        try{
-            Date date1=simpleDateFormat.parse(value1);
-            Date date2=simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+        int dateDiff = 0;
+        try {
+            Date date1 = simpleDateFormat.parse(value1);
+            Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
             long getDiff = date2.getTime() - date1.getTime();
-            long dateDiffLong = (getDiff/(24*60*60*1000));
-            dateDiff= (int) dateDiffLong;
-        }catch(Exception e){
+            long dateDiffLong = (getDiff / (24 * 60 * 60 * 1000));
+            dateDiff = (int) dateDiffLong;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dateDiff;
     }
 
-    public static String getDate(){
+    public static int dateDiffFuture(String value1) {
+        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        int dateDiff = 0;
+        try {
+            Date date1 = simpleDateFormat.parse(value1);
+            Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            long getDiff = date1.getTime() - date2.getTime();
+            long dateDiffLong = (getDiff / (24 * 60 * 60 * 1000));
+            dateDiff = (int) dateDiffLong;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateDiff;
+    }
+
+    public static String getToday() {
+        String newDate = "";
+        try {
+            DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date2 = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            newDate = simpleDateFormat.format(date2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newDate;
+    }
+
+    public static String getDate() {
         Scanner input = new Scanner(System.in);
         boolean check = true;
         String date = null;
         while (check) {
             date = input.nextLine();
-            if(date.matches("(20[0-2][0-9])[-](0[1-9]|1[0-2])[-](0[1-9]|1[0-9]|2[0-9]|3[0-1])")){
-                if(isDateValid(date)&&(dateDiff(date) >= 0)){
+            if (date.matches("(20[0-2][0-9])[-](0[1-9]|1[0-2])[-](0[1-9]|1[0-9]|2[0-9]|3[0-1])")) {
+                if (isDateValid(date) && (dateDiff(date) >= 0)) {
                     check = false;
-                }else{
+                } else {
                     System.out.print("Invalid date! Check the days in the month. Re-enter: ");
                 }
-            }else{
+            } else {
                 System.out.print("Incorrect Format of Date (yyyy-mm-dd), Re-enter: ");
             }
         }
         return date;
     }
 
-    public static boolean isDateValid(String date)
-    {
+    public static boolean isDateValid(String date) {
         final String DATE_FORMAT = "yyyy-MM-dd";
         try {
             DateFormat df = new SimpleDateFormat(DATE_FORMAT);
