@@ -1,8 +1,8 @@
 Vehicle List Data:
-AAA-111,Honda,1,2020-10-20,true,C
-AAA-123,Shizuki,2,2020-10-15,false,M
+AAA-111,Honda,1,2020-10-20,true,M
+AAA-123,Shizuki,2,2020-10-15,true,C
 
 Monthly Pass Data: 
-2020-10-28:AAA-111
+2020-10-28:AAA-1112000-3-01:AAA-123
 Income Earning Data: 
-2020-10-28 to 2020-10-26:120.0
+2020-10-28 to 2020-10-26:120.02020-02-10 to 2020-11-04:810.02000-3-01 to 2020-11-04:120.0

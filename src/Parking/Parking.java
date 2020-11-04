@@ -192,7 +192,7 @@ public class Parking {
 
     public void returnVehicle() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter license Number: ");
+        System.out.print("Enter license Number: ");
         String licenseNumber = input.nextLine();
         if (findVehicle(licenseNumber)) {
             for (int i = 0; i < vehicles.size(); i++) {
@@ -202,13 +202,13 @@ public class Parking {
                     String time = date + " to " + getToday();
                     incomeEarnings.add(new IncomeEarning(time, money));
                     vehicles.remove(i);
-                    System.out.println("Returned Vehicle!");
+                    System.out.println("Returned Vehicle!\n");
                     usedSpots--;
                     break;
                 }
             }
         } else {
-            System.out.println("This Vehicle is not exsits!");
+            System.out.println("This Vehicle is not exsits!\n");
         }
     }
 
@@ -221,6 +221,7 @@ public class Parking {
         } else {
             System.out.println("No Vehicle to show!");
         }
+        saveDataFile();
     }
 
     //4. Buy Monthly Pass
@@ -284,6 +285,7 @@ public class Parking {
                 incomeEarnings.add(new IncomeEarning(time, 120));
             }
         }
+        saveDataFile();
     }
 
     public final boolean checkMonthlyPass(String licenseNumber) {
@@ -296,6 +298,7 @@ public class Parking {
                 result = false;
             }
         }
+        saveDataFile();
         return result;
     }
 
@@ -304,6 +307,7 @@ public class Parking {
         for (int i = 0; i < incomeEarnings.size(); i++) {
             System.out.println(incomeEarnings.get(i).toString());
         }
+        saveDataFile();
     }
 
     //6. Close Parking
@@ -327,7 +331,7 @@ public class Parking {
             saveDataFile();
             System.out.println("All data has been saved successfully");
         } else {
-            System.out.println("The Program is continue...");
+            System.out.println("The Program is continue...\n");
         }
         return choice;
     }
@@ -421,7 +425,7 @@ public class Parking {
                 }
             }
             writer.write(sb.toString());
-            System.out.println("Saved File Vehicle.csv!");
+            //System.out.println("Saved File Vehicle.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -434,7 +438,7 @@ public class Parking {
                 sb.append(monthlyPass.get(i).getLicenseNumber() + "\n");
             }
             writer.write(sb.toString());
-            System.out.println("Saved File MonthlyPass.csv!");
+            //System.out.println("Saved File MonthlyPass.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -447,7 +451,7 @@ public class Parking {
                 sb.append(incomeEarnings.get(i).getMoney() + "\n");
             }
             writer.write(sb.toString());
-            System.out.println("Saved File Income.csv!");
+            //System.out.println("Saved File Income.csv!");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -484,7 +488,7 @@ public class Parking {
 
         try (PrintWriter writer = new PrintWriter(new File("OUTPUT_FINAL.txt"))) {
             writer.write(dataInput);
-            System.out.println("Done!");
+            //System.out.println("\nUpdated all file\n");
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -503,9 +507,11 @@ public class Parking {
                         switch (subOption) {
                             case 1:
                                 parkCar();
+                                saveDataFile();
                                 break;
                             case 2:
                                 parkMotorbike();
+                                saveDataFile();
                                 break;
                             case 3:
                                 subCheck = false;
@@ -515,12 +521,14 @@ public class Parking {
                     break;
                 case 2:
                     returnVehicle();
+                    saveDataFile();
                     break;
                 case 3:
                     listParkedVehicle();
                     break;
                 case 4:
                     buyMonthlyPass();
+                    saveDataFile();
                     break;
                 case 5:
                     incomeEarnings();
@@ -529,14 +537,11 @@ public class Parking {
                     closeParking();
                     break;
                 case 7:
-                    exitParkingApp();
-                    System.out.print("Exiting the App. Please confirm (Y/N): ");
-                    boolean exit = hasOrNot();
-                    if (exit) {
+                    if (exitParkingApp()) {
                         check = false;
-                        System.out.println("Bye!");
+                        System.out.println("Bye!\n");
                     } else {
-                        System.out.println("Continuing the program!");
+                        check=true;
                     }
                     break;
             }
